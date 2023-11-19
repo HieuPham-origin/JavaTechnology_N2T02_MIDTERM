@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService{
         return this.orderRepository.findAll();
     }
     @Override
-    public Order createOrder(Order order){
+    public Order addOrder(Order order){
         return this.orderRepository.save(order);
     }
 
