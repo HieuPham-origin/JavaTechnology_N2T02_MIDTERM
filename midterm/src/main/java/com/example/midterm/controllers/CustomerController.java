@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -71,5 +72,13 @@ public class CustomerController {
         model.addAttribute("firstImages", firstImages);
 
         return "shop";
+    }
+    @GetMapping("/product")
+    public String getProductDetail(@RequestParam(value = "productId") Integer productId, Model model) {
+        Product product = productService.getProductById(productId);
+        List<ProductImage> images = productService.getImageByProductId(product.getProductId());
+        model.addAttribute("images", images);
+        model.addAttribute("product", product);
+        return "product";
     }
 }

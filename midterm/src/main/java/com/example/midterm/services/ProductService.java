@@ -4,9 +4,11 @@ import com.example.midterm.models.Product;
 import com.example.midterm.models.ProductImage;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService{
     List<Product> getAllProducts();
+    Product getProductById(int id);
     Product addProduct(Product product);
     void deleteProduct(int id);
     Product updateProduct(int id, Product product);

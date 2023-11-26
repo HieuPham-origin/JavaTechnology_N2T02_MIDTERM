@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @AllArgsConstructor
 @Setter @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -19,8 +21,8 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "address")
     private String address;
@@ -30,4 +32,6 @@ public class Customer {
 
     @Column(name = "role")
     private String role;
+    @Column(name = "enabled")
+    private Boolean enabled;
 }
