@@ -34,10 +34,6 @@ public class CustomerController {
     public String index(){
         return "index";
     }
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
     @GetMapping("/about")
     public String about(){return "about";}
     @GetMapping("/contact")

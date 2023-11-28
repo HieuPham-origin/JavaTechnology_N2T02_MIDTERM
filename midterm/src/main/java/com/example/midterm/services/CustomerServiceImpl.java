@@ -29,16 +29,11 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setName(user.getName());
         customer.setUsername(user.getUsername());
         customer.setPassword(passwordEncoder.encode(user.getPassword()));
-        customer.setRole("customer");
+        customer.setRole("ROLE_USER");
         return this.customerRepository.save(customer);
     }
     @Override
     public Customer findByUserName(String username){
         return this.customerRepository.findByUsername(username);
-    }
-    @Override
-    public String getCustomer(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
     }
 }

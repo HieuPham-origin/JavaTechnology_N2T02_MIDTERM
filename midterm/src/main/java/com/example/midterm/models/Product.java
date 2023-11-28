@@ -1,8 +1,5 @@
 package com.example.midterm.models;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -28,6 +25,8 @@ public class Product {
 
     @Column(name = "description")
     private String description;
+    @Column(name = "color")
+    private String color;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -37,9 +36,12 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany
-    @JoinTable(name = "product_color",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "color_id"))
-    private Set<Color> colors;
+    @Builder
+    public Product (int id, String product_name, int price, Brand brand, Category category, String color){
+        this.productId = id;
+        this.brand = brand;
+        this.price = price;
+        this.productName = product_name;
+        this.color = color;
+    }
 }
