@@ -38,6 +38,10 @@ public class Customer implements UserDetails {
     private String role;
     @Column(name = "enabled")
     private Boolean enabled;
+    public Customer(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
