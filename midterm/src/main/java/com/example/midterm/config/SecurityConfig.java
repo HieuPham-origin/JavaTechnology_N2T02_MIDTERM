@@ -15,7 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-
+    @Autowired
+    public SuccessHandler sucessHandler;
     @Autowired
     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -27,29 +28,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
+    {
         http
-                .authorizeRequests(authorize -> authorize
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .antMatchers("/register/**", "/api/products/**").permitAll()
-                        .antMatchers("/", "/index").permitAll()
-                        .antMatchers("/register", "/register/**").permitAll()
-                        .antMatchers("/admin/**").hasAuthority("ADMIN")
-                        .antMatchers("/product").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .successHandler(successHandler())
-                        .failureUrl("/login?error=true")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll()
-                );
-
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/css/**", "/js/**").permitAll()
+                .and()
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/signin")
+                                .loginProcessingUrl("/userLogin")
+                                .successHandler(sucessHandler)
+                                .permitAll())
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/signin?logout");
         return http.build();
     }
 
