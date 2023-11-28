@@ -46,7 +46,9 @@ public class AuthenticationController {
         customer.setUsername(user.getUsername());
         customer.setName(user.getName());
         customer.setPassword(passwordEncoder.encode(user.getPassword()));
+        customer.setAddress(user.getAddress());
         customer.setRole("user");
+        customer.setEnabled(true);
         customerRepository.save(customer);
         return new ModelAndView("redirect:/login");
     }

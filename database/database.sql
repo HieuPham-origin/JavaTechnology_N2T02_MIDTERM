@@ -1,4 +1,5 @@
 CREATE DATABASE midtermjava;
+use midtermjava;
 CREATE TABLE brand (
   brand_id INT PRIMARY KEY AUTO_INCREMENT,
   brand_name VARCHAR(255) NOT NULL

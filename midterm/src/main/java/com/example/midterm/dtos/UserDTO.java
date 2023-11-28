@@ -21,4 +21,6 @@ public class UserDTO {
     @NotEmpty(message = "password can not empty")
     @Email
     private String password;
+    @NotEmpty
+    private String address;
 }

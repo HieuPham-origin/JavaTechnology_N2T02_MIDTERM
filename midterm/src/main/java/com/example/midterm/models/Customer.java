@@ -36,7 +36,6 @@ public class Customer implements UserDetails {
 
     @Column(name = "role")
     private String role;
-    @Column(name = "enabled")
     private Boolean enabled;
     public Customer(String username, String password){
         this.username = username;
