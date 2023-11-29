@@ -1,10 +1,18 @@
 package com.example.midterm.controllers;
 
 import com.example.midterm.dtos.UserDTO;
+import com.example.midterm.jwtutils.JwtGenerator;
 import com.example.midterm.models.Customer;
 import com.example.midterm.repositories.CustomerRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +28,12 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
+    private JwtGenerator jwtGenerator;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private CustomerRepository customerRepository;
     public AuthenticationController(UserDetailsService userDetailsService){
         this.userDetailsService = userDetailsService;
@@ -29,6 +43,28 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+    @PostMapping("/login")
+    public ModelAndView login(@ModelAttribute UserDTO user){
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            user.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateJwt(authentication);
+            if(token != null){
+                HttpSession session = request.getSession();
+                session.setAttribute("username", user.getUsername());
+                return new ModelAndView("redirect:/index");
+            }
+        }catch (AuthenticationException e){
+            ModelAndView modelAndView = new ModelAndView("redirect:/login");
+            modelAndView.addObject("error", "Invalid username or password");
+            return modelAndView;
+        }
+        return new ModelAndView("redirect:/login");
     }
     @GetMapping("/register")
     public String register(){

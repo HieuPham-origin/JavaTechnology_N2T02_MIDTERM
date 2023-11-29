@@ -1,5 +1,6 @@
 package com.example.midterm.config;
 
+import com.example.midterm.jwtutils.JwtAuthenticationFilter;
 import com.example.midterm.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,5 +38,8 @@ public class SecurityConfig{
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 }
