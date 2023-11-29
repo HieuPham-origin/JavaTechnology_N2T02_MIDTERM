@@ -1,12 +1,10 @@
 package com.example.midterm.controllers;
 
 import com.example.midterm.dtos.UserDTO;
-import com.example.midterm.jwtutils.JwtGenerator;
 import com.example.midterm.models.Customer;
 import com.example.midterm.repositories.CustomerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,8 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private JwtGenerator jwtGenerator;
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -53,18 +47,16 @@ public class AuthenticationController {
                             user.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = jwtGenerator.generateJwt(authentication);
-            if(token != null){
-                HttpSession session = request.getSession();
-                session.setAttribute("username", user.getUsername());
-                return new ModelAndView("redirect:/index");
-            }
+
+            HttpSession session = request.getSession();
+            session.setAttribute("username", user.getUsername());
+            return new ModelAndView("redirect:/index");
+
         }catch (AuthenticationException e){
             ModelAndView modelAndView = new ModelAndView("redirect:/login");
             modelAndView.addObject("error", "Invalid username or password");
             return modelAndView;
         }
-        return new ModelAndView("redirect:/login");
     }
     @GetMapping("/register")
     public String register(){
