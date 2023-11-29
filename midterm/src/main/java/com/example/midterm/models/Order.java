@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @Setter @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 
 public class Order {
     @Id
@@ -33,5 +35,5 @@ public class Order {
     private String payment;
 
     @Column(name = "day_created")
-    private LocalDateTime dayCreated;
+    private LocalDate dayCreated;
 }

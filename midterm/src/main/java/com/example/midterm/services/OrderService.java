@@ -1,10 +1,9 @@
 package com.example.midterm.services;
 
-import com.example.midterm.models.Order;
-import com.example.midterm.models.OrderDetail;
-import com.example.midterm.models.OrderDetailId;
-import com.example.midterm.models.Product;
+import com.example.midterm.dtos.ProductDTO;
+import com.example.midterm.models.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +15,10 @@ public interface OrderService {
     Order updateOrder(int id, Order order);
     void addToCart(Product product, Order order, int quantity);
     Optional<Order> existOrder(String username);
-    List<Product> listItems(int orderId);
-//    Integer totalPrice(Order order);
+    List<ProductDTO> listItems(int orderId);
+    int totalPrice(Order order);
+    void createCart(String username);
+    OrderDetail upOne(Product product, Order order);
+    OrderDetail downOne(Product product, Order order);
+    Order checkout(Order order);
 }

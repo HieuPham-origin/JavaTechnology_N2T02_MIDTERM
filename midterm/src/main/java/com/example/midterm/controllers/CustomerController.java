@@ -1,17 +1,18 @@
 package com.example.midterm.controllers;
 
+import com.example.midterm.dtos.ProductDTO;
 import com.example.midterm.models.*;
+import com.example.midterm.repositories.OrderRepository;
 import com.example.midterm.services.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,8 @@ public class CustomerController {
     private CustomerService customerService;
     @Autowired
     private OrderService orderService;
-
+@Autowired
+private OrderRepository orderRepository;
     @Autowired
     private ProductImageService productImageService;
     @GetMapping("/index")
@@ -99,20 +101,34 @@ public class CustomerController {
         model.addAttribute("product", product);
         return "product";
     }
-//    @PostMapping("/addToCart")
-//    public String addToCart(@RequestParam(name = "productId") int productId) {
-//        String username = customerService.getCurrentUsername();
-//        Customer customer = (Customer) customerService.loadUserByUsername(username);
-//        if (customer != null) {
-//            Product product = productService.getProductById(productId);
-//            if (product != null) {
-//                Optional<Order> order = orderService.existOrder(customer.getUsername());
-//                if (order.isPresent())
-//                    orderService.addToCart(product, order.get(), 1);
-//
-//                return "redirect:/cart";
-//            }
-//        }
-//        return "redirect:/products";
-//    }
+    @PostMapping("/addToCart/{id}")
+    public ModelAndView addToCart(@PathVariable(name = "id") Integer productId,
+                                  @RequestParam(value = "quantity", defaultValue = "1") int quantity,
+                                  HttpSession session,
+                                  RedirectAttributes redirectAttributes) {
+        Product product = productService.getProductById(productId);
+        String username = (String) session.getAttribute("username");
+        orderService.createCart(username);
+        Optional<Order> order = orderService.existOrder(username);
+        if (order.isPresent()) {
+            orderService.addToCart(product, order.get(), quantity);
+        }
+        List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
+
+        // Thêm thông báo thành công vào flash attribute
+        redirectAttributes.addFlashAttribute("successMessage", "Product added to cart successfully!");
+
+        // Chuyển hướng đến trang khác để hiển thị thông báo
+        return new ModelAndView("redirect:/products");
+    }
+    @GetMapping("/cart")
+    public String cart(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("username");
+        Optional<Order> order = orderRepository.findOrder(username);
+        List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
+        int total = orderService.totalPrice(order.get());
+        model.addAttribute("items", productDTOList);
+        model.addAttribute("total", total);
+        return "cart";
+    }
 }

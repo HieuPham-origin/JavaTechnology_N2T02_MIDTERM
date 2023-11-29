@@ -1,10 +1,12 @@
 package com.example.midterm.repositories;
 
 
+import com.example.midterm.dtos.ProductDTO;
 import com.example.midterm.models.OrderDetail;
 import com.example.midterm.models.Product;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,11 +15,12 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
-    public Optional<OrderDetail> findByOrderOrderIdAndProductProductId(int orderId, int productId);
-
-    public List<Product> findByOrderOrderId(int orderId);
-
-    public OrderDetail findByProductProductIdAndOrderOrderId(int shoesId, int orderId);
-
-//    public Integer sumPriceByOrderOrderId(int orderId);
+    @Query("SELECT od FROM OrderDetail od WHERE CAST(od.order.orderId AS STRING) LIKE ?1 and od.product.productId = ?2")
+    public Optional<OrderDetail> existOrder(int orderId, int productId);
+    @Query("SELECT new com.example.midterm.dtos.ProductDTO(P.product, P.price, P.quantity) FROM OrderDetail P WHERE CAST(P.order.orderId AS STRING) like ?1")
+    public List<ProductDTO> listItems(int orderId);
+    @Query("SELECT od FROM OrderDetail od where od.product.productId = ?1 and CAST(od.order.orderId AS STRING) LIKE ?2")
+    public OrderDetail getItems(int shoesId, int orderId);
+    @Query("SELECT sum(s.price) FROM OrderDetail s WHERE CAST(s.order.orderId AS STRING) LIKE ?1")
+    public Integer total(int orderId);
 }
