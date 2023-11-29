@@ -1,6 +1,11 @@
 package com.example.midterm.services;
 
 import com.example.midterm.models.Order;
+import com.example.midterm.models.OrderDetail;
+import com.example.midterm.models.OrderDetailId;
+import com.example.midterm.models.Product;
+import com.example.midterm.repositories.CustomerRepository;
+import com.example.midterm.repositories.OrderDetailRepository;
 import com.example.midterm.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +15,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
     @Override
     public List<Order> getAllOrders(){
         return this.orderRepository.findAll();
     }
     @Override
-    public Order addOrder(Order order){
+    public Order getOrderById(int orderId){return this.orderRepository.findById(orderId).get();}
+    @Override
+    public Order checkOut(Order order){
         return this.orderRepository.save(order);
     }
-
     @Override
     public void deleteOrder(int id){
         this.orderRepository.deleteById(id);
@@ -37,4 +46,36 @@ public class OrderServiceImpl implements OrderService{
             return null;
         }
     }
+    @Override
+    public void addToCart(Product product, Order order, int quantity){
+        Optional<OrderDetail> exist = orderDetailRepository.findByOrderOrderIdAndProductProductId(order.getOrderId(),
+                product.getProductId());
+        if(exist.isPresent()){
+            OrderDetail update = exist.get();
+            update.setPrice(exist.get().getPrice() + product.getPrice()*quantity);
+            update.setQuantity(exist.get().getQuantity()+quantity);
+            orderDetailRepository.save(update);
+        }else{
+            OrderDetail orderDetail = new OrderDetail();
+            OrderDetailId orderDetailId = new OrderDetailId(product.getProductId(), order.getOrderId());
+            orderDetail.setId(orderDetailId);
+            orderDetail.setQuantity(quantity);
+            orderDetail.setPrice(product.getPrice()*quantity);
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(product);
+            orderDetailRepository.save(orderDetail);
+        }
+    }
+    @Override
+    public Optional<Order> existOrder(String username){
+        return this.orderRepository.findOrder(username);
+    }
+    @Override
+    public List<Product> listItems(int orderId){
+        return this.orderDetailRepository.findByOrderOrderId(orderId);
+    }
+//    @Override
+//    public Integer totalPrice(Order order){
+//        return this.orderDetailRepository.sumPriceByOrderOrderId(order.getOrderId());
+//    }
 }

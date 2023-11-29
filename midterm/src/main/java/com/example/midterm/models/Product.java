@@ -36,12 +36,4 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Builder
-    public Product (int id, String product_name, int price, Brand brand, Category category, String color){
-        this.productId = id;
-        this.brand = brand;
-        this.price = price;
-        this.productName = product_name;
-        this.color = color;
-    }
 }

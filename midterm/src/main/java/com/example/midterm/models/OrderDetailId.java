@@ -18,4 +18,9 @@ public class OrderDetailId implements Serializable {
 
     @Column(name = "order_id")
     private int orderId;
+    public OrderDetailId(){}
+    public OrderDetailId(int productId, int orderId){
+        this.productId = productId;
+        this.orderId = orderId;
+    }
 }

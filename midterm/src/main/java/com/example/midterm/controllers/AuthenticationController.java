@@ -78,4 +78,13 @@ public class AuthenticationController {
         customerRepository.save(customer);
         return new ModelAndView("redirect:/login");
     }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        SecurityContextHolder.clearContext();
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/login";
+    }
 }

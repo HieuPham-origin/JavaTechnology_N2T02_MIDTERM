@@ -1,16 +1,17 @@
 package com.example.midterm.controllers;
 
-import com.example.midterm.models.Brand;
-import com.example.midterm.models.Category;
-import com.example.midterm.models.Product;
-import com.example.midterm.models.ProductImage;
+import com.example.midterm.models.*;
 import com.example.midterm.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,31 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private ProductImageService productImageService;
-    @GetMapping("index")
-    public String index(){
+    @GetMapping("/index")
+    public String index(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         return "index";
     }
     @GetMapping("/about")
-    public String about(){return "about";}
+    public String about(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        return "about";
+    }
     @GetMapping("/contact")
-    public String contact(){return "contact";}
+    public String contact(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        return "contact";
+    }
     @GetMapping("/products")
     public String products(@RequestParam(value = "brand", required = false) Integer brandId,
                            @RequestParam(value = "category", required = false) Integer categoryId,
@@ -82,4 +99,20 @@ public class CustomerController {
         model.addAttribute("product", product);
         return "product";
     }
+//    @PostMapping("/addToCart")
+//    public String addToCart(@RequestParam(name = "productId") int productId) {
+//        String username = customerService.getCurrentUsername();
+//        Customer customer = (Customer) customerService.loadUserByUsername(username);
+//        if (customer != null) {
+//            Product product = productService.getProductById(productId);
+//            if (product != null) {
+//                Optional<Order> order = orderService.existOrder(customer.getUsername());
+//                if (order.isPresent())
+//                    orderService.addToCart(product, order.get(), 1);
+//
+//                return "redirect:/cart";
+//            }
+//        }
+//        return "redirect:/products";
+//    }
 }

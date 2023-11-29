@@ -24,8 +24,8 @@
                 <span th:if="${username}" class="navbar-text me-2">
                     Welcome, <span th:text="${username}"></span>
                 </span>
-                <a th:unless="${username}"
-                   href="/login" class="btn btn-outline-light ms-2" type="button">Login</a>
+                <a th:unless="${username}" href="/login" class="btn btn-outline-light ms-2" type="button">Login</a>
+                <a th:if="${username}" href="/logout" class="btn btn-outline-light ms-2" type="button">Logout</a>
             </div>
         </div>
     </div>
