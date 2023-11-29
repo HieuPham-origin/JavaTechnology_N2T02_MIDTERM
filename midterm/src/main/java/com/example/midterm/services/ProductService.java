@@ -16,4 +16,6 @@ public interface ProductService{
     ProductImage selectFirstImageOfProduct(int productId);
     List<Product> getProductsByBrand(int brandId);
     List<Product> getProductsByCategory(int categoryId);
+    List<Product> getProductsByColor(String color);
+    List<String> getColors();
 }

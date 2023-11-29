@@ -72,43 +72,14 @@
                             </div>
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Color</a>
                                 </div>
                                 <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
-                                        <div class="shop__sidebar__size">
-                                            <label for="xs">
-                                                xs
-                                                <input type="radio" id="xs">
-                                            </label>
-                                            <label for="sm">
-                                                s
-                                                <input type="radio" id="sm">
-                                            </label>
-                                            <label for="md">
-                                                m
-                                                <input type="radio" id="md">
-                                            </label>
-                                            <label for="xl">
-                                                xl
-                                                <input type="radio" id="xl">
-                                            </label>
-                                            <label for="2xl">
-                                                2xl
-                                                <input type="radio" id="2xl">
-                                            </label>
-                                            <label for="xxl">
-                                                xxl
-                                                <input type="radio" id="xxl">
-                                            </label>
-                                            <label for="3xl">
-                                                3xl
-                                                <input type="radio" id="3xl">
-                                            </label>
-                                            <label for="4xl">
-                                                4xl
-                                                <input type="radio" id="4xl">
-                                            </label>
+                                        <div class="shop__sidebar__brand">
+                                            <ul class="list-unstyled" th:each="color : ${colors}">
+                                                <li><a th:href="@{/products(color=${color})}" th:text="${color}"></a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

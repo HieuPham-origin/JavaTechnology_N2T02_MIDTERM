@@ -20,8 +20,12 @@
                     <a class="nav-link" href="/contact">Contact</a>
                 </li>
             </ul>
-            <div class="collapse navbar-collapse justify-content-end">
-                <a href="/login" class="btn btn-outline-light ms-2 " type="button">Login</a>
+            <div class="collapse navbar-collapse justify-content-end" id="userSection">
+                <span th:if="${username}" class="navbar-text me-2">
+                    Welcome, <span th:text="${username}"></span>
+                </span>
+                <a th:unless="${username}"
+                   href="/login" class="btn btn-outline-light ms-2" type="button">Login</a>
             </div>
         </div>
     </div>

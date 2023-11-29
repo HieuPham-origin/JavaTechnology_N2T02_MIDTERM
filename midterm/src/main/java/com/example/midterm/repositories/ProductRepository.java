@@ -22,4 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT P FROM Product P WHERE P.category.categoryId = ?1")
     List<Product> getProductsByCategory(int categoryId);
+    @Query("SELECT P FROM Product P WHERE P.color = ?1")
+    List<Product> getProductsByColor(String color);
+    @Query("SELECT DISTINCT P.color FROM Product P")
+    List<String> getColors();
 }

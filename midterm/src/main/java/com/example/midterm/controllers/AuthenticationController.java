@@ -47,11 +47,9 @@ public class AuthenticationController {
                             user.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
             HttpSession session = request.getSession();
             session.setAttribute("username", user.getUsername());
             return new ModelAndView("redirect:/index");
-
         }catch (AuthenticationException e){
             ModelAndView modelAndView = new ModelAndView("redirect:/login");
             modelAndView.addObject("error", "Invalid username or password");

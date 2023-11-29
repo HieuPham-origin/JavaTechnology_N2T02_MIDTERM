@@ -71,4 +71,12 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> getProductsByCategory(int categoryId){
         return this.productRepository.getProductsByCategory(categoryId);
     }
+    @Override
+    public List<Product> getProductsByColor(String color){
+        return this.productRepository.getProductsByColor(color);
+    }
+    @Override
+    public List<String> getColors(){
+        return this.productRepository.getColors();
+    }
 }
