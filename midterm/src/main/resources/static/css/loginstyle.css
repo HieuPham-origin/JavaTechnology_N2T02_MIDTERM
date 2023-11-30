@@ -1,0 +1,62 @@
+/* Các quy tắc CSS cho trang đăng nhập */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.wrap {
+    display: flex;
+}
+
+.text-wrap {
+    flex: 50%;
+    padding: 4rem 5rem;
+    display: flex;
+    align-items: end;
+    background-size: cover;
+    background-position: center;
+}
+
+.text-wrap h2 {
+    color: #fff;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.text-wrap p {
+    color: #fff;
+}
+
+.login-wrap {
+    flex: 50%;
+    padding: 4rem 5rem;
+    background: #f8f9fa;
+}
+
+.login-wrap h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.login-wrap label {
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.login-wrap .form-control {
+    height: 50px;
+    font-size: 1rem;
+}
+
+.login-wrap button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+}
+
+.login-wrap a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.login-wrap a:hover {
+    color: #0056b3;
+}

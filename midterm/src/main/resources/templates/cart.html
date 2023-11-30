@@ -9,15 +9,57 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        #userSection{
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div th:replace="fragments/header::header"></div>
+<div>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">Shopping Page</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index">Shop</a>
+                        </li>
+                        <li th:if="${username}" class="nav-item">
+                            <a class="nav-link" th:href="@{/cart}">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="collapse navbar-collapse justify-content-end" id="userSection">
+                <span th:if="${username}" class="navbar-text me-2">
+                    Welcome, <span th:text="${username}"></span>
+                </span>
+                        <a th:unless="${username}" href="/login" class="btn btn-outline-light ms-2" type="button">Login</a>
+                        <a th:if="${username}" href="/logout" class="btn btn-outline-light ms-2" type="button">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
 <br><br>
-<div class="container">
-    <table>
-        <thead>
+<div class="container" style="height: 600px;">
+    <h2>Your Cart</h2>
+    <br>
+    <br>
+    <table class="table" style="height: 400px;">
+        <thead class="table-dark">
         <tr>
-            <th>Item</th>
+            <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
         </tr>
@@ -26,14 +68,15 @@
         <!-- Loop through the items using Thymeleaf -->
         <tr th:each="item : ${items}">
             <td th:text="${item.product.getProductName()}"></td>
-            <td th:text="${item.price}"></td>
+            <td th:text="${item.price} + '$'"></td>
             <td th:text="${item.quantity}"></td>
         </tr>
         </tbody>
     </table>
 
     <h2>Total: <span th:text="${total}"></span></h2>
-    <a th:href="@{/checkout}">Checkout</a>
+    <a th:href="@{/checkout}" class="btn btn-primary">Checkout</a>
 </div>
+<div th:replace="fragments/footer::footer"></div>
 </body>
 </html>

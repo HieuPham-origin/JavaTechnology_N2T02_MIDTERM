@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
@@ -11,17 +9,124 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container2 {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #userSection{
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .checkout-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .checkout-button button {
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkout-button button:hover {
+            background-color: #333;
+        }
+
+    </style>
 </head>
 <body>
-    <div th:insert="fragments/header::header"></div>
-    <br><br>
-    <div class="container">
-        <input th:value="${customer.getName()}">
-        <input th:value="${customer.getAddress()}">
-        <input th:value="${customer.getUsername()}">
+<div>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">Shopping Page</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index">Shop</a>
+                        </li>
+                        <li th:if="${username}" class="nav-item">
+                            <a class="nav-link" th:href="@{/cart}">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="collapse navbar-collapse justify-content-end" id="userSection">
+                <span th:if="${username}" class="navbar-text me-2">
+                    Welcome, <span th:text="${username}"></span>
+                </span>
+                        <a th:unless="${username}" href="/login" class="btn btn-outline-light ms-2" type="button">Login</a>
+                        <a th:if="${username}" href="/logout" class="btn btn-outline-light ms-2" type="button">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+</div>
+<br>
+<br>
+<h2 style="text-align: center">Check out to order your product</h2>
+<br>
+<div class="container2">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" class="form-control" type="text" th:value="${customer.getName()}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="address">Address:</label>
+        <input id="address" class="form-control" type="text" th:value="${customer.getAddress()}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="username">Total Price:</label>
+        <input id="username" class="form-control" type="text" th:value="${customer.getUsername()}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="username">Total price:</label>
+        <input id="total" class="form-control" type="text" th:value="${total}" readonly>
+    </div>
+    <div class="form-group">
+        <label for="username">Payment:</label>
+        <input id="payment" class="form-control" type="text" th:value="COD" readonly>
+    </div>
+    <div class="checkout-button">
         <form method="post" th:action="@{/checkout}">
-            <button th:type="submit">Checkout</button>
+            <button type="submit">Checkout</button>
         </form>
     </div>
+</div>
+<div th:replace="fragments/footer::footer"></div>
 </body>
 </html>

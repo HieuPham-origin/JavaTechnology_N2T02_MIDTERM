@@ -9,65 +9,59 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/loginstyle.css">
 </head>
 <body>
     <div th:replace="fragments/header::header"></div>
 <br /><br />
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-
-            <!-- <div th:if="${param.error}">
-                <div class="alert alert-danger">Invalid Email or Password </div>
-            </div>
-            <div th:if="${param.logout}">
-                <div class="alert alert-success"> You have been logged out.</div>
-            </div> -->
-
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Login Form</h2>
-                </div>
-                <div class="card-body">
-                    <form
-                            method="post"
-                            role="form"
-                            th:action="@{/login}"
-                            class="form-horizontal"
-                    >
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Email</label>
-                            <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
-                                    class="form-control"
-                                    placeholder="Enter email address"
-                            />
+    <section class="ftco-section" style="height: 600px">
+        <div class="container" style="height: 500px">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="wrap d-md-flex">
+                        <div class="login-wrap p-4 p-md-5" style="color: cyan">
+                        <img src="/img/bg.jpg" style="height: 388px; width: 362px" alt="">
                         </div>
+                        <div class="login-wrap p-4 p-md-5">
+                            <h3 class="mb-3">Sign in to our website</h3>
+                            <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Email</label>
+                                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter email address" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Password</label>
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
 
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Password</label>
-                            <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    class="form-control"
-                                    placeholder="Enter password"
-                            />
+                                    <div class="col-md-12">
+                                        <br>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary" style="align-items: center">Login</button>
+                                            <br>
+                                            <br>
+                                            <span>Not registered? <a href="/register">Register/Signup here</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary" >Submit</button>
-                            <br>
-                            <span> Not registered ?
-                                <a href="/register">Register/Signup here</a>
-                            </span>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <div th:replace="fragments/footer::footer"></div>
 </body>
 </html>

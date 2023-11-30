@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
@@ -11,12 +9,64 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .checkout__form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .checkout__order {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .order__title {
+            margin-bottom: 10px;
+        }
+
+        .order__content {
+            margin-bottom: 20px;
+        }
+
+        .site-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .site-btn:hover {
+            background-color: #333;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="fragments/header::header"></div>
 <br><br>
-<div class="container">
-    Thank you for order.
-</div>
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form text-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="checkout__order">
+                    <h4 class="order__title">Thanks for your order</h4>
+                    <p class="order__content">
+                        Thank you for placing your order with us. We have received your order and it's being processed.
+                        Our team will review your order details and contact you as soon as possible with further information.
+                    </p>
+                    <div class="order__button">
+                        <a th:href="@{/index}" class="site-btn">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="fragments/footer::footer"></div>
 </body>
 </html>

@@ -4,7 +4,36 @@ body {
     margin: 0;
     padding: 0;
 }
+.shop__sidebar__categories {
+	justify-content: center;
+	align-items: center;
+}
 
+.category-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+.category-list li {
+	margin-bottom: 10px;
+}
+.shop__sidebar__brands {
+	justify-content: center;
+	align-items: center;
+}
+
+.brand-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+.brand-list li {
+	margin-bottom: 10px;
+}
 .wrapper {
     min-height: 100%;
     position: relative;

@@ -6,13 +6,9 @@ import com.example.midterm.repositories.OrderRepository;
 import com.example.midterm.services.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +27,11 @@ public class CustomerController {
     private CustomerService customerService;
     @Autowired
     private OrderService orderService;
-@Autowired
-private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
     @Autowired
     private ProductImageService productImageService;
-    @GetMapping("/index")
-    public String index(HttpSession session, Model model) {
-        String username = (String) session.getAttribute("username");
-        model.addAttribute("username", username);
-        return "index";
-    }
+
     @GetMapping("/about")
     public String about(HttpSession session, Model model){
         String username = (String) session.getAttribute("username");
@@ -53,7 +44,7 @@ private OrderRepository orderRepository;
         model.addAttribute("username", username);
         return "contact";
     }
-    @GetMapping("/products")
+    @GetMapping("/index")
     public String products(@RequestParam(value = "brand", required = false) Integer brandId,
                            @RequestParam(value = "category", required = false) Integer categoryId,
                            @RequestParam(value = "color", required = false) String color,
@@ -87,41 +78,45 @@ private OrderRepository orderRepository;
         model.addAttribute("categories", categories);
         model.addAttribute("firstImages", firstImages);
         model.addAttribute("colors", colors);
-        return "shop";
+        return "index";
     }
     @GetMapping("/product")
-    public String getProductDetail(@RequestParam(value = "productId") Integer productId, Model model) {
+    public String getProductDetail(@RequestParam(value = "productId") Integer productId, Model model,
+                                   HttpSession session) {
         Product product = productService.getProductById(productId);
-        List<ProductImage> images = productService.getImageByProductId(product.getProductId());
+        ProductImage images = productService.selectFirstImageOfProduct(product.getProductId());
         model.addAttribute("images", images);
         model.addAttribute("product", product);
         return "product";
     }
     @PostMapping("/addToCart/{id}")
-    public ModelAndView addToCart(@PathVariable(name = "id") Integer productId,
+    public String addToCart(@PathVariable(name = "id") Integer productId,
                                   @RequestParam(value = "quantity", defaultValue = "1") int quantity,
+                                  Model model,
                                   HttpSession session) {
         Product product = productService.getProductById(productId);
         String username = (String) session.getAttribute("username");
+        model.addAttribute("username", username);
+        if (!customerService.existByUserName(username)){
+            return "redirect:/login";
+        }
         orderService.createCart(username);
         Optional<Order> order = orderService.existOrder(username);
         if (order.isPresent()) {
             orderService.addToCart(product, order.get(), quantity);
         }
-        List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
-
-        return new ModelAndView("redirect:/products");
+        return "redirect:/index";
     }
     @GetMapping("/cart")
     public String cart(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         Optional<Order> order = orderService.existOrder(username);
         if(order.isEmpty()){
-            return "redirect:/shop";
+            return "redirect:/index";
         }
         List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
         int total = orderService.totalPrice(order.get());
-
+        model.addAttribute("username", username);
         model.addAttribute("items", productDTOList);
         model.addAttribute("total", total);
         return "cart";
@@ -130,7 +125,12 @@ private OrderRepository orderRepository;
     public String checkout(HttpSession session, Model model){
         String username = (String) session.getAttribute("username");
         Customer customer = this.customerService.getByUsername(username);
+
+        Optional<Order> order = orderService.existOrder(username);
+        int total = orderService.totalPrice(order.get());
+        model.addAttribute("username", username);
         model.addAttribute("customer", customer);
+        model.addAttribute("total", total);
         return "checkout";
     }
     @PostMapping("/checkout")
