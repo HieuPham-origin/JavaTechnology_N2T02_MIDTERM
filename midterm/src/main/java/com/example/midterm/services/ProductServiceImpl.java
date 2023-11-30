@@ -79,4 +79,16 @@ public class ProductServiceImpl implements ProductService{
     public List<String> getColors(){
         return this.productRepository.getColors();
     }
+    @Override
+    public List<Product> getProductsByPriceUpper(int price){
+        return this.productRepository.findByPriceUpper(price);
+    }
+    @Override
+    public List<Product> getProductsByPriceLower(int price){
+        return this.productRepository.findByPriceLower(price);
+    }
+    @Override
+    public List<Product> getProductsByPriceRange(int lower, int upper){
+        return this.productRepository.findByPriceRange(lower, upper);
+    }
 }

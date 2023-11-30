@@ -48,6 +48,8 @@ public class CustomerController {
     public String products(@RequestParam(value = "brand", required = false) Integer brandId,
                            @RequestParam(value = "category", required = false) Integer categoryId,
                            @RequestParam(value = "color", required = false) String color,
+                           @RequestParam(value = "minPrice", required = false) Integer minPrice,
+                           @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
                            Model model, HttpSession session) {
         String username = (String) session.getAttribute("username");
         List<Product> products = productService.getAllProducts();
@@ -59,6 +61,13 @@ public class CustomerController {
         }
         if (color != null){
             products = productService.getProductsByColor(color);
+        }
+        if (minPrice != null && maxPrice != null) {
+            products = productService.getProductsByPriceRange(minPrice, maxPrice);
+        } else if (minPrice != null) {
+            products = productService.getProductsByPriceLower(minPrice);
+        } else if (maxPrice != null) {
+            products = productService.getProductsByPriceUpper(maxPrice);
         }
         List<Brand> brands = brandService.getAllBrands();
         List<Category> categories = categoryService.getAllCategories();
@@ -84,6 +93,8 @@ public class CustomerController {
     public String getProductDetail(@RequestParam(value = "productId") Integer productId, Model model,
                                    HttpSession session) {
         Product product = productService.getProductById(productId);
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("username", username);
         ProductImage images = productService.selectFirstImageOfProduct(product.getProductId());
         model.addAttribute("images", images);
         model.addAttribute("product", product);

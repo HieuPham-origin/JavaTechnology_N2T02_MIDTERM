@@ -1,5 +1,6 @@
 <div align="center">
 <h3 align="center">Java Midterm Project</h3>
+<h3>52100796_PhamDucMinhHieu</h3>
 <br>
 <a href="https://github.com/HieuPham-origin/JavaTechnology_N2T02_MIDTERM">Repository of midterm project</a>
 </div>
@@ -67,38 +68,38 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
 
 ### ERD Diagram
 
-<img src="img/erd.png">
+<img src="img/erd.png" alt="">
 
 ### API/Products
 
 #### GET: localhost:8080/products
 
-<img src="img/product_get.png">
+<img src="img/product_get.png" alt="">
 
 #### GET: localhost:8080/products/{id}
 
-<img src="img/product_getbyid.png">
+<img src="img/product_getbyid.png" alt="">
 
 #### POST: localhost:8080/products
 
-<img src="img/product_post.png">
+<img src="img/product_post.png" alt="">
 
 #### PUT: localhost:8080/products/{id}
 
-<img src="img/product_put.png">
+<img src="img/product_put.png" alt="">
 
 #### DELETE: localhost:8080/products/{id}
 
-<img src="img/product_delete.png">
+<img src="img/product_delete.png" alt="">
 
 ### API/Orders
 
 #### GET: API/Orders
 
-<img src="img/order_get.png">
+<img src="img/order_get.png" alt="">
 
 #### GET: API/Orders/{id}
 
-<img src="img/order_getbyid.png">
+<img src="img/order_getbyid.png" alt="">
 
 ## Video Demo

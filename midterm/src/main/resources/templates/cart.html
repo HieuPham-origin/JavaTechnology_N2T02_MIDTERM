@@ -74,7 +74,7 @@
         </tbody>
     </table>
 
-    <h2>Total: <span th:text="${total}"></span></h2>
+    <h2>Total: <span th:text="${total} + '$'"></span></h2>
     <a th:href="@{/checkout}" class="btn btn-primary">Checkout</a>
 </div>
 <div th:replace="fragments/footer::footer"></div>

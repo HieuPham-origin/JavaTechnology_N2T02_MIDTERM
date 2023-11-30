@@ -18,4 +18,7 @@ public interface ProductService{
     List<Product> getProductsByCategory(int categoryId);
     List<Product> getProductsByColor(String color);
     List<String> getColors();
+    List<Product> getProductsByPriceUpper(int price);
+    List<Product> getProductsByPriceLower(int price);
+    List<Product> getProductsByPriceRange(int lower, int upper);
 }
