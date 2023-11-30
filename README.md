@@ -104,4 +104,4 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
 
 ## Video Demo
 
-[Video demo](https://www.youtube.com/watch?v=lN6rpm1SlIg)
+[Video demo]([https://www.youtube.com/watch?v=lN6rpm1SlIg](https://www.youtube.com/watch?v=lN6rpm1SlIg)https://www.youtube.com/watch?v=lN6rpm1SlIg)
