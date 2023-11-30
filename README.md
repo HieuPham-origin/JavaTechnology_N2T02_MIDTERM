@@ -21,7 +21,6 @@
 ## About The Project
 
 This is a web application that allows users to browse a catalog of products and filter them by category, brand, color, and price range. It was built using Java, Spring Boot, Thymeleaf, and Bootstrap.
-<p align="right">(<a href="#about">back to top</a>)</p>
 
 ## Brief Explanation
 
@@ -32,7 +31,6 @@ In this repo, software development principles, patterns, and practices are being
     <li>Object-Relational Mapping (ORM): The app uses Hibernate, which is an ORM framework, to map Java objects to relational database tables. This abstraction layer helps in dealing with the complexities of object-oriented programming and relational databases.</li>
     <li>Dependency Injection (DI): The app uses Spring Framework's DI functionality to inject dependencies into classes, reducing coupling between components and making the code more modular and maintainable.</li>
 </ol>
-<p align="right">(<a href="#about">back to top</a>)</p>
 
 ## Code Structure
 
@@ -63,11 +61,10 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
     <li>Open XAMPP, start APACHE and MySQL Service.</li>
     <li>Run the application in MidtermApplication.java in the project.</li>
 </ol>
-<p align="right">(<a href="#about">back to top</a>)</p>
+
 
 ## ERD Diagram
 
 <img src="img/erd.png">
-<p align="right">(<a href="#about">back to top</a>)</p>
 
 ## Video Demo
