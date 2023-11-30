@@ -29,12 +29,12 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order getOrderById(int orderId){return this.orderRepository.findById(orderId).get();}
     @Override
-    public Order checkOut(Order order){
-        return this.orderRepository.save(order);
-    }
-    @Override
     public void deleteOrder(int id){
         this.orderRepository.deleteById(id);
+    }
+    @Override
+    public void deleteOrderDetail(int id){
+        this.orderDetailRepository.deleteById(id);
     }
     @Override
     public Order updateOrder(int id, Order order){
@@ -90,24 +90,5 @@ public class OrderServiceImpl implements OrderService{
             newOrder.setDayCreated(currentDate);
             orderRepository.save(newOrder);
         }
-    }
-    public OrderDetail upOne(Product product, Order order){
-        OrderDetail orderDetail = orderDetailRepository.getItem(product.getProductId(), order.getOrderId());
-        orderDetail.setQuantity(orderDetail.getQuantity()+1);
-        orderDetail.setPrice(orderDetail.getPrice()+product.getPrice());
-        orderDetailRepository.save(orderDetail);
-        return orderDetail;
-    }
-    public OrderDetail downOne(Product product, Order order){
-        OrderDetail orderDetail = orderDetailRepository.getItem(product.getProductId(), order.getOrderId());
-        orderDetail.setQuantity(orderDetail.getQuantity()-1);
-        orderDetail.setPrice(orderDetail.getPrice()-product.getPrice());
-        orderDetailRepository.save(orderDetail);
-        return orderDetail;
-    }
-    @Override
-    public Order checkout(Order order){
-        orderRepository.save(order);
-        return order;
     }
 }

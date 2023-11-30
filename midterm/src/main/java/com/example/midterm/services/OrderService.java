@@ -10,15 +10,12 @@ import java.util.Optional;
 public interface OrderService {
     List<Order> getAllOrders();
     Order getOrderById(int orderId);
-    Order checkOut(Order order);
     void deleteOrder(int id);
+    void deleteOrderDetail(int id);
     Order updateOrder(int id, Order order);
     void addToCart(Product product, Order order, int quantity);
     Optional<Order> existOrder(String username);
     List<ProductDTO> listItems(int orderId);
     int totalPrice(Order order);
     void createCart(String username);
-    OrderDetail upOne(Product product, Order order);
-    OrderDetail downOne(Product product, Order order);
-    Order checkout(Order order);
 }

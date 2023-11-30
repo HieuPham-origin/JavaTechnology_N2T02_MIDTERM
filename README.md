@@ -13,7 +13,7 @@
 <br>
     <a href="#howtorun">How to run</a>
 <br>
-    <a href="#erd">ERD Diagram</a>
+    <a href="#erd_api">ERD Diagram, APIs</a>
 <br>
     <a href="#demo">Video demo</a>
 </details>
@@ -65,6 +65,8 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
 
 ## ERD Diagram, API/Products, API/Orders
 
+### ERD Diagram
+
 <img src="img/erd.png">
 
 ### API/Products
@@ -73,16 +75,30 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
 
 <img src="img/product_get.png">
 
+#### GET: localhost:8080/products/{id}
+
+<img src="img/product_getbyid.png">
+
 #### POST: localhost:8080/products
 
-<img src="img/product_post.png.png">
+<img src="img/product_post.png">
 
-#### PUT: localhost:8080/products/1
+#### PUT: localhost:8080/products/{id}
 
 <img src="img/product_put.png">
 
-#### DELETE: localhost:8080/products/4
+#### DELETE: localhost:8080/products/{id}
 
 <img src="img/product_delete.png">
+
+### API/Orders
+
+#### GET: API/Orders
+
+<img src="img/order_get.png">
+
+#### GET: API/Orders/{id}
+
+<img src="img/order_getbyid.png">
 
 ## Video Demo
