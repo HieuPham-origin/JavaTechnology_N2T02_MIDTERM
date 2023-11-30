@@ -33,10 +33,6 @@ public class OrderServiceImpl implements OrderService{
         this.orderRepository.deleteById(id);
     }
     @Override
-    public void deleteOrderDetail(int id){
-        this.orderDetailRepository.deleteById(id);
-    }
-    @Override
     public Order updateOrder(int id, Order order){
         Optional<Order> update = this.orderRepository.findById(id);
         if (update.isPresent()){

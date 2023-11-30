@@ -11,7 +11,6 @@ public interface OrderService {
     List<Order> getAllOrders();
     Order getOrderById(int orderId);
     void deleteOrder(int id);
-    void deleteOrderDetail(int id);
     Order updateOrder(int id, Order order);
     void addToCart(Product product, Order order, int quantity);
     Optional<Order> existOrder(String username);
