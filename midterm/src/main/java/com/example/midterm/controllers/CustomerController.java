@@ -36,23 +36,20 @@ private OrderRepository orderRepository;
     @Autowired
     private ProductImageService productImageService;
     @GetMapping("/index")
-    public String index(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+    public String index(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
         return "index";
     }
     @GetMapping("/about")
-    public String about(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+    public String about(HttpSession session, Model model){
+        String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
         return "about";
     }
     @GetMapping("/contact")
-    public String contact(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+    public String contact(HttpSession session, Model model){
+        String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
         return "contact";
     }
@@ -60,8 +57,8 @@ private OrderRepository orderRepository;
     public String products(@RequestParam(value = "brand", required = false) Integer brandId,
                            @RequestParam(value = "category", required = false) Integer categoryId,
                            @RequestParam(value = "color", required = false) String color,
-                           Model model) {
-        String username = customerService.getCurrentUsername();
+                           Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
         List<Product> products = productService.getAllProducts();
         if (brandId != null) {
             products = productService.getProductsByBrand(brandId);
@@ -85,7 +82,6 @@ private OrderRepository orderRepository;
             }
         }
         model.addAttribute("username", username);
-        model.addAttribute("prefix", "product");
         model.addAttribute("products", products);
         model.addAttribute("brands", brands);
         model.addAttribute("categories", categories);
@@ -104,8 +100,7 @@ private OrderRepository orderRepository;
     @PostMapping("/addToCart/{id}")
     public ModelAndView addToCart(@PathVariable(name = "id") Integer productId,
                                   @RequestParam(value = "quantity", defaultValue = "1") int quantity,
-                                  HttpSession session,
-                                  RedirectAttributes redirectAttributes) {
+                                  HttpSession session) {
         Product product = productService.getProductById(productId);
         String username = (String) session.getAttribute("username");
         orderService.createCart(username);
@@ -114,21 +109,23 @@ private OrderRepository orderRepository;
             orderService.addToCart(product, order.get(), quantity);
         }
         List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
+        ModelAndView modelAndView = new ModelAndView("redirect:/products");
+        modelAndView.addObject("success","Add product to cart successfully");
 
-        // Thêm thông báo thành công vào flash attribute
-        redirectAttributes.addFlashAttribute("successMessage", "Product added to cart successfully!");
-
-        // Chuyển hướng đến trang khác để hiển thị thông báo
-        return new ModelAndView("redirect:/products");
+        return modelAndView;
     }
     @GetMapping("/cart")
-    public String cart(HttpSession session, Model model) {
+    public ModelAndView cart(HttpSession session) {
         String username = (String) session.getAttribute("username");
-        Optional<Order> order = orderRepository.findOrder(username);
+        Optional<Order> order = orderService.existOrder(username);
+        if(order.isEmpty()){
+            return new ModelAndView("redirect:/shop");
+        }
         List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
         int total = orderService.totalPrice(order.get());
-        model.addAttribute("items", productDTOList);
-        model.addAttribute("total", total);
-        return "cart";
+        ModelAndView modelAndView = new ModelAndView("cart");
+        modelAndView.addObject("items", productDTOList);
+        modelAndView.addObject("total", total);
+        return modelAndView;
     }
 }

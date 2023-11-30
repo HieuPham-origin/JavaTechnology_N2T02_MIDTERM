@@ -72,14 +72,17 @@
                             </div>
                             <div class="card">
                                 <div class="card-heading">
-                                    <a data-toggle="collapse" data-target="#collapseTwo">Color</a>
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Colors</a>
                                 </div>
                                 <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__brand">
-                                            <ul class="list-unstyled" th:each="color : ${colors}">
-                                                <li><a th:href="@{/products(color=${color})}" th:text="${color}"></a></li>
-                                            </ul>
+                                            <div class="d-flex flex-wrap">
+                <span th:each="color : ${colors}">
+                    <a th:href="@{/products(color=${color})}" class="d-inline-block rounded-circle mx-1"
+                       th:style="'background-color: ' + ${color.toLowerCase()} + '; width: 30px; height: 30px;'"></a>
+                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -127,7 +130,9 @@
                 </div>
             </div>
             <div class="col-lg-9">
-                
+                <th:block th:if="${param.success}">
+                    <p th:text="Add product to cart successfully" style="color: green"></p>
+                </th:block>
                 <div class="row">
                     <!-- Add the th:inline="text" attribute to enable Thymeleaf expressions -->
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -161,7 +166,7 @@
                                         <input type="submit" value="+ Add To Cart" style="text-decoration: none;">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                     </form>
-                                    <h5 th:text="${product.price}"></h5>
+                                    <h5 th:text="${product.price}">$</h5>
                                 </div>
                             </div>
                         </div>
