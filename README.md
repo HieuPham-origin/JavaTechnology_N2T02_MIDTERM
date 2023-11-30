@@ -63,8 +63,26 @@ The code structure of this repo follows the standard MVC (Model-View-Controller)
 </ol>
 
 
-## ERD Diagram
+## ERD Diagram, API/Products, API/Orders
 
 <img src="img/erd.png">
+
+### API/Products
+
+#### GET: localhost:8080/products
+
+<img src="img/product_get.png">
+
+#### POST: localhost:8080/products
+
+<img src="img/product_post.png.png">
+
+#### PUT: localhost:8080/products/1
+
+<img src="img/product_put.png">
+
+#### DELETE: localhost:8080/products/4
+
+<img src="img/product_delete.png">
 
 ## Video Demo

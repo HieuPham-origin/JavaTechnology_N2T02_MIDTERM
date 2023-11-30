@@ -109,23 +109,42 @@ private OrderRepository orderRepository;
             orderService.addToCart(product, order.get(), quantity);
         }
         List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
-        ModelAndView modelAndView = new ModelAndView("redirect:/products");
-        modelAndView.addObject("success","Add product to cart successfully");
 
-        return modelAndView;
+        return new ModelAndView("redirect:/products");
     }
     @GetMapping("/cart")
-    public ModelAndView cart(HttpSession session) {
+    public String cart(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         Optional<Order> order = orderService.existOrder(username);
         if(order.isEmpty()){
-            return new ModelAndView("redirect:/shop");
+            return "redirect:/shop";
         }
         List<ProductDTO> productDTOList = orderService.listItems(order.get().getOrderId());
         int total = orderService.totalPrice(order.get());
-        ModelAndView modelAndView = new ModelAndView("cart");
-        modelAndView.addObject("items", productDTOList);
-        modelAndView.addObject("total", total);
-        return modelAndView;
+
+        model.addAttribute("items", productDTOList);
+        model.addAttribute("total", total);
+        return "cart";
+    }
+    @GetMapping("/checkout")
+    public String checkout(HttpSession session, Model model){
+        String username = (String) session.getAttribute("username");
+        Customer customer = this.customerService.getByUsername(username);
+        model.addAttribute("customer", customer);
+        return "checkout";
+    }
+    @PostMapping("/checkout")
+    public String checkout(HttpSession session){
+        String username = (String) session.getAttribute("username");
+        Optional<Order> order = orderService.existOrder(username);
+        if(order.isPresent()){
+            Order order1 = order.get();
+            order1.setStatus("In Progess");
+            order1.setPrice(orderService.totalPrice(order.get()));
+            orderService.updateOrder(order.get().getOrderId(), order1);
+        }else{
+            return null;
+        }
+        return "thankyou";
     }
 }

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<div th:insert="/header::header"></div>
+<div th:replace="fragments/header::header"></div>
 <br><br>
 <div class="container">
     <table>
@@ -33,6 +33,7 @@
     </table>
 
     <h2>Total: <span th:text="${total}"></span></h2>
+    <a th:href="@{/checkout}">Checkout</a>
 </div>
 </body>
 </html>

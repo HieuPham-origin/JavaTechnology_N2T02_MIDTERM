@@ -92,14 +92,14 @@ public class OrderServiceImpl implements OrderService{
         }
     }
     public OrderDetail upOne(Product product, Order order){
-        OrderDetail orderDetail = orderDetailRepository.getItems(product.getProductId(), order.getOrderId());
+        OrderDetail orderDetail = orderDetailRepository.getItem(product.getProductId(), order.getOrderId());
         orderDetail.setQuantity(orderDetail.getQuantity()+1);
         orderDetail.setPrice(orderDetail.getPrice()+product.getPrice());
         orderDetailRepository.save(orderDetail);
         return orderDetail;
     }
     public OrderDetail downOne(Product product, Order order){
-        OrderDetail orderDetail = orderDetailRepository.getItems(product.getProductId(), order.getOrderId());
+        OrderDetail orderDetail = orderDetailRepository.getItem(product.getProductId(), order.getOrderId());
         orderDetail.setQuantity(orderDetail.getQuantity()-1);
         orderDetail.setPrice(orderDetail.getPrice()-product.getPrice());
         orderDetailRepository.save(orderDetail);

@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomerService implements UserDetailsService {
     @Autowired
@@ -28,5 +30,8 @@ public class CustomerService implements UserDetailsService {
     public String getCurrentUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
+    }
+    public Customer getByUsername(String username){
+        return this.customerRepository.findByUsername(username);
     }
 }
